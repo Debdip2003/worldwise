@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "./PageNav.module.css";
 import { NavLink } from "react-router-dom";
-import Logo from "..//components/Logo";
+import Logo from "../components/Logo";
+
 const PageNav = () => {
   return (
     <nav className={styles.nav}>
@@ -11,14 +12,39 @@ const PageNav = () => {
         </li>
 
         <li>
-          <NavLink to={"/product"}>Product</NavLink>
+          <NavLink
+            to="/product"
+            className={({ isActive }) => (isActive ? styles.active : "")}
+          >
+            Product
+          </NavLink>
         </li>
         <li>
-          <NavLink to={"/pricing"}>Pricing</NavLink>
+          <NavLink
+            to="/pricing"
+            className={({ isActive }) => (isActive ? styles.active : "")}
+          >
+            Pricing
+          </NavLink>
         </li>
         <li>
-          <NavLink to={"/login"} className={styles.ctaLink}>
+          <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              `${styles.ctaLink} ${isActive ? styles.active : ""}`
+            }
+          >
             Login
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/signup"
+            className={({ isActive }) =>
+              `${styles.ctaLink} ${isActive ? styles.active : ""}`
+            }
+          >
+            Signup
           </NavLink>
         </li>
       </ul>

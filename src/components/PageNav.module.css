@@ -24,11 +24,14 @@
 .nav a:global(.active) {
   color: var(--color-brand--2);
 }
-
-a.ctaLink:link,
-a.ctaLink:visited {
-  background-color: var(--color-brand--2);
-  color: var(--color-dark--0);
+.ctaLink {
   padding: 0.8rem 2rem;
   border-radius: 7px;
+  transition: background-color 0.3s ease;
+  color: var(--color-light--2);
+}
+
+.ctaLink.active {
+  background-color: var(--color-brand--2);
+  color: var(--color-dark--0);
 }
