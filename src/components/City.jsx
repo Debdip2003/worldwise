@@ -1,4 +1,9 @@
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useCities } from "../context/CitiesContext";
 import styles from "./City.module.css";
+import Spinner from "./Spinner";
+import BackButton from "./BackButton";
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat("en", {
@@ -9,13 +14,22 @@ const formatDate = (date) =>
   }).format(new Date(date));
 
 function City() {
-  // TEMP DATA
-  const currentCity = {
-    cityName: "Lisbon",
-    emoji: "🇵🇹",
-    date: "2027-10-31T15:59:59.138Z",
-    notes: "My favorite city so far!",
-  };
+  const { id } = useParams();
+  const { getCity, currentCity, isLoading } = useCities();
+  // const [searchParams] = useSearchParams();
+  // const mapLatitude = searchParams.get("lat");
+  // const mapLongitude = searchParams.get("lng");
+
+  useEffect(() => {
+    getCity(id);
+  }, [getCity, id]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+  if (!currentCity) {
+    return <p>No city found</p>;
+  }
 
   const { cityName, emoji, date, notes } = currentCity;
 
@@ -30,28 +44,34 @@ function City() {
 
       <div className={styles.row}>
         <h6>You went to {cityName} on</h6>
-        <p>{formatDate(date || null)}</p>
+        <p>{formatDate(date)}</p>
       </div>
-
-      {notes && (
-        <div className={styles.row}>
-          <h6>Your notes</h6>
-          <p>{notes}</p>
-        </div>
-      )}
 
       <div className={styles.row}>
-        <h6>Learn more</h6>
-        <a
-          href={`https://en.wikipedia.org/wiki/${cityName}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Check out {cityName} on Wikipedia &rarr;
-        </a>
+        <h6>Notes</h6>
+        <p>{notes}</p>
       </div>
 
-      <div></div>
+      <div className={styles.row}>
+        <h6>Website</h6>
+        <p>
+          Visit{" "}
+          <a
+            href={`https://en.wikipedia.org/wiki/${cityName.replace(
+              / /g,
+              "_"
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {cityName} on Wikipedia
+          </a>
+        </p>
+      </div>
+
+      <div>
+        <BackButton>&larr;Back</BackButton>
+      </div>
     </div>
   );
 }
