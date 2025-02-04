@@ -16,19 +16,19 @@ const formatDate = (date) =>
 function City() {
   const { id } = useParams();
   const { getCity, currentCity, isLoading } = useCities();
-  // const [searchParams] = useSearchParams();
-  // const mapLatitude = searchParams.get("lat");
-  // const mapLongitude = searchParams.get("lng");
 
   useEffect(() => {
-    getCity(id);
+    if (id) getCity(id);
   }, [getCity, id]);
 
   if (isLoading) {
     return <Spinner />;
   }
+
+  console.log("Current city data:", currentCity); // Debugging line
+
   if (!currentCity) {
-    return <p>No city found</p>;
+    return <div>No city found</div>;
   }
 
   const { cityName, emoji, date, notes } = currentCity;

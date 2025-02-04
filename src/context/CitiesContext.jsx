@@ -37,6 +37,7 @@ const CitiesProvider = ({ children }) => {
       setIsLoading(true);
       const res = await fetch(`${BASE_URL}/cities/${id}`);
       const data = await res.json();
+      console.log("Fetched city data:", data); // Debugging line
       setCurrentCity(data);
     } catch (err) {
       toast.error(`${err.message}`);
